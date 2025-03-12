@@ -1,10 +1,12 @@
 
 # Dictionary to store account information
 Bank_store = {}
+
 # Dictionary to store transaction history
 Transaction_history = {}
 # Dictionary to store daily withdrawal amounts
 Daily_withdrawals = {}
+
 # Dictionary to store incorrect password attempts
 Incorrect_attempts = {}
 
@@ -42,10 +44,13 @@ def create_account():
     
     # Store account details in the Bank_store dictionary
     Bank_store[account_number] = [account_name, account_balance, account_type, account_password, phone_number, location, birthday, gender]
+
     # Initialize an empty transaction history for the account
     Transaction_history[account_number] = []
+
     # Initialize daily withdrawal amount to 0
     Daily_withdrawals[account_number] = 0
+
     # Initialize incorrect password attempts to 0
     Incorrect_attempts[account_number] = 0
     print(f"Account created successfully for {account_name} with account number: {account_number}")
@@ -87,8 +92,10 @@ def deposit():
     account_number = input("Enter your account number: ")
     if verify_password(account_number):
         amount = input("Enter the amount to deposit: ")
+
         # Update the account balance
         Bank_store[account_number][1] = str(int(Bank_store[account_number][1]) + int(amount))
+
         # Record the transaction
         Transaction_history[account_number].append(f"Deposited {amount}")
         print(f"Deposit of {amount} to account {account_number} successful")
@@ -101,7 +108,9 @@ def withdraw():
     if verify_password(account_number):
         amount = int(input("Enter the amount to withdraw: "))
         description = input("Enter the description for the withdrawal: ")
-        daily_limit = 1000  # Set daily withdrawal limit
+
+        # Set daily withdrawal limit
+        daily_limit = 1000  
         if Daily_withdrawals[account_number] + amount > daily_limit:
             print("Daily withdrawal limit exceeded")
         elif int(Bank_store[account_number][1]) < amount:
@@ -109,8 +118,10 @@ def withdraw():
         else:
             # Update the account balance
             Bank_store[account_number][1] = str(int(Bank_store[account_number][1]) - amount)
+
             # Update the daily withdrawal amount
             Daily_withdrawals[account_number] += amount
+
             # Record the transaction
             Transaction_history[account_number].append(f"Withdrew {amount} - {description}")
             print(f"Withdrawal of {amount} from account {account_number} successful")
@@ -125,9 +136,11 @@ def send_money():
         if receiver_account in Bank_store:
             amount = input("Enter the amount to send: ")
             if int(Bank_store[sender_account][1]) >= int(amount):
+
                 # Update the sender's and receiver's account balances
                 Bank_store[sender_account][1] = str(int(Bank_store[sender_account][1]) - int(amount))
                 Bank_store[receiver_account][1] = str(int(Bank_store[receiver_account][1]) + int(amount))
+
                 # Record the transaction
                 Transaction_history[sender_account].append(f"Sent {amount} to {receiver_account}")
                 Transaction_history[receiver_account].append(f"Received {amount} from {sender_account}")
@@ -151,8 +164,10 @@ def make_payment():
             biller = input("Enter the biller name: ")
             amount = input("Enter the amount to pay: ")
             if int(Bank_store[account_number][1]) >= int(amount):
+
                 # Update the account balance
                 Bank_store[account_number][1] = str(int(Bank_store[account_number][1]) - int(amount))
+
                 # Record the transaction
                 Transaction_history[account_number].append(f"Paid {amount} to {biller}")
                 print(f"Paid {amount} to {biller} successfully")
@@ -162,8 +177,10 @@ def make_payment():
             employer = input("Enter the employer name: ")
             amount = input("Enter the amount to pay: ")
             if int(Bank_store[account_number][1]) >= int(amount):
+
                 # Update the account balance
                 Bank_store[account_number][1] = str(int(Bank_store[account_number][1]) - int(amount))
+
                 # Record the transaction
                 Transaction_history[account_number].append(f"Paid {amount} to {employer}")
                 print(f"Paid {amount} to {employer} successfully")
@@ -173,8 +190,10 @@ def make_payment():
             item = input("Enter the item name: ")
             amount = input("Enter the amount to pay: ")
             if int(Bank_store[account_number][1]) >= int(amount):
+
                 # Update the account balance
                 Bank_store[account_number][1] = str(int(Bank_store[account_number][1]) - int(amount))
+
                 # Record the transaction
                 Transaction_history[account_number].append(f"Bought {item} for {amount}")
                 print(f"Bought {item} for {amount} successfully")
@@ -199,6 +218,7 @@ def calculate_interest():
     if verify_password(account_number):
         if Bank_store[account_number][2] == "savings":
             interest = int(Bank_store[account_number][1]) * 0.04
+            
             # Update the account balance with the interest
             Bank_store[account_number][1] = str(int(Bank_store[account_number][1]) + interest)
             print(f"Interest added: {interest}")
